@@ -1,9 +1,14 @@
+from sklearn import svm
 from sklearn.datasets import make_regression
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import scipy.stats
 import seaborn as sns
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 
 
 # +------------------+
@@ -41,6 +46,14 @@ def print_data_types():
     print("------------------------------------")
 
 #print_data_types()
+
+def print_data_statistics():
+    print("------------------------------------")
+    print("Dataset statistics:")
+    print(dataset.describe())
+    print("------------------------------------")
+
+#print_data_statistics()
 
 
 # Funció que mostra la dimensionalitat del Dataset
@@ -102,33 +115,149 @@ def make_histograms(dataset):
 
 #make_histograms(dataset)
 
-#x=3
-
-"""
-# Mirem la correlació entre els atributs d'entrada per entendre millor les dades
-plt.figure()
-fig, axes = plt.subplots(figsize=(40, 40))
-plt.title("Correlation matrix - Bankrupcy")
-corr = dataset.corr()
-f_row = corr.head(1) #Obté la primera fila de la matriu de correlació
-axes = sns.heatmap(corr, annot=True, linewidths=.5, ax=axes)
-plt.show()
-"""
-
-# Mirem la relació entre atributs utilitzant la funció pairplot
-#relacio = sns.pairplot(dataset)
-
-x = 3
 
 # +-----------------------+
 # | TRACTAMENT D'ATRIBUTS |
 # +-----------------------+
+# Funció que elimina els espais en blanc del nom dels atributs
+def remove_spaces(dataset):
+    dataset.columns = dataset.columns.str.replace(' ', '')
+    return dataset
+
+dataset = remove_spaces(dataset)
 
 
+# Eliminació d'atributs no necessaris dels DataFrames
+def remove_columns(dataset):
+    dataset = dataset.drop('NetIncomeFlag', axis=1)
+    return dataset
+
+dataset = remove_columns(dataset)
+
+
+# Funció que substitueix els valors nuls del dataset pel valor numèric '0'.
+def nan_treatment(dataset):
+    print("------------------------------------")
+    print("Dataset 'NaN' values treatment:")
+    any_nan = dataset.isnull().values.any()  # Retorna True si hi ha algun valor NaN al dataset, sino retorna False
+
+    if (any_nan):
+        nan_count = dataset.isnull().sum().sum()  # Retorna el resultat numèric de comptar tots els valor NaN
+        print("There is {} NaN values on this Dataset!".format(nan_count))
+        dataset.fillna(0)
+    else:
+        print("There is no NaN values on this Dataset!")
+
+    print("------------------------------------")
+
+    return dataset
+
+dataset = nan_treatment(dataset)
+
+
+# Funció que transforma (escala) els valors del DataFrame, per tal de permetre fer que les diferents
+# característiques siguin comparables entre elles.
+def standardize_mean(dataset):
+    return MinMaxScaler().fit_transform(dataset)
+
+dataset_norm = standardize_mean(dataset)
+
+
+def split_data(dataset):
+    x_data = dataset[:, 1:]  # Característiques
+    y_data = dataset[:, 0]  # Variable objectiu (target)
+    # Fa el split de les dades d'entrenament i validació.
+    x_t, x_v, y_t, y_v = train_test_split(x_data, y_data, train_size=0.8)
+    return x_t, x_v, y_t, y_v
+
+x_t, x_v, y_t, y_v = split_data(dataset_norm)
+
+
+
+def Logistic_Regressor():
+    logireg = LogisticRegression(C=2.0, fit_intercept=True, penalty='l2', tol=0.001, solver='lbfgs', max_iter=1000)
+    logireg.fit(x_t, y_t)  # Entrena el model
+    probs = logireg.predict_proba(x_v)  # Calcula la probabilitat de que X pertanyi a Y=1
+    print("Correct classification Logistic Regression      ", 0.8, "% of the data: ", logireg.score(x_v, y_v))
+
+Logistic_Regressor()
+x = 3
+
+
+def SVM():
+    svc = svm.SVC(C=10.0, kernel='rbf', gamma=0.9, probability=True)
+    svc.fit(x_t, y_t)  # Entrena el model
+    probs = svc.predict_proba(x_v)  # Calcula la probabilitat de que X pertanyi a Y=1
+
+    print("SVM: percentage of samples classified correctly: {}".format(svc.score(x_v, y_v)))
+
+
+SVM()
+x=3
 
 # +----------------------------------------+
 # | PCA - transformació de dimensionalitat |
 # +----------------------------------------+
+# Funció que genera el regressor multivariable entrenat amb un dataset al qual se li ha aplicat una transformació
+# de dimensionalitat (amb el mètode PCA).
+def make_pca(dataset, player_name, atributes, print_plot):
+    dataset__norm = standardize_mean(dataset[atributes])
+    x_norm = dataset__norm[atributes[0:-1]]
+    y_norm = dataset__norm[atributes[-1]]  # Aquest és l'atribut a predir
+
+    # Separa les dades entre el conjunt d'entrenament i de validació
+    x_train_norm, x_val_norm, y_train_norm, y_val_norm = train_test_split(x_norm, y_norm, test_size=0.2)
+
+    # Vectors que emmagatzemaran les dades per generar els gràfics de l'evolució de l'error.
+    mse_vect = []
+    i_vect = []
+    r2_vect = []
+
+    # Fa la transformació de dimensionalitat per un nombre incremental de components principals.
+    for i in range(1, len(atributes)):
+        pca = PCA(i)
+        x_train_norm_pca = pca.fit_transform(x_train_norm.values)  # Transformació de les dades de training.
+        x_test_norm_pca = pca.transform(x_val_norm.values)  # Transformació de les dades de validació.
+
+        total_var = pca.explained_variance_ratio_.sum() * 100  # Variança total
+        lab = {str(j): f"PC {j + 1}" for j in range(i)}
+        lab['color'] = 'Game_score'
+
+        fig = px.scatter_matrix(
+            x_test_norm_pca,
+            color=y_val_norm,
+            dimensions=range(i),
+            labels=lab,
+            title=f'Total Explained Variance: {total_var:.2f}%',
+        )
+        fig.update_traces(diagonal_visible=False)
+        fig.show()
+
+        linear_model = LogisticRegression()  # Crea el model regressor
+        linear_model.fit(x_train_norm_pca, y_train_norm)  # Entrena el regressor amb les dades d'entrenament
+        preds = linear_model.predict(x_test_norm_pca)  # Fa la predicció sobre les dades de validació
+
+        mse_result = mse(y_val_norm, preds)
+        i_vect.append(i)
+        mse_vect.append(mse_result)
+
+        r2 = r2_score(y_val_norm, preds)
+        r2_vect.append(r2)
+        print("PCA %s: %d - MSE: %f - R2: %f" % (player_name, i, mse_result, r2))
+
+    if print_plot:
+        plt.figure()
+        ax = plt.scatter(x_test_norm_pca[:, 0], y_val_norm)
+        plt.plot(x_test_norm_pca[:, 0], preds, 'r')
+        plt.show()
+
+    fig = plt.figure()
+    ax = plt.subplot(111)
+    ax.plot(i_vect, r2_vect, 'b', label='R2_Score')
+    ax.plot(i_vect, mse_vect, 'r', label='MSE')
+    ax.legend(bbox_to_anchor=(1, 0.8))
+    plt.title("Error per dimensionalitat PCA")
+    plt.show()
 
 
 # +-------------------------------+
