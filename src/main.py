@@ -6,9 +6,13 @@ from matplotlib import pyplot as plt
 import scipy.stats
 import seaborn as sns
 from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score, precision_score, recall_score, accuracy_score
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import MinMaxScaler
+from sklearn import metrics
 
 
 # +------------------+
@@ -42,10 +46,10 @@ def print_head():
 def print_data_types():
     print("------------------------------------")
     print("Dataset data types:")
-    print(dataset.dtypes)
+    print(dataset.info())
     print("------------------------------------")
 
-#print_data_types()
+print_data_types()
 
 def print_data_statistics():
     print("------------------------------------")
@@ -155,140 +159,87 @@ def nan_treatment(dataset):
 dataset = nan_treatment(dataset)
 
 
-# Funció que transforma (escala) els valors del DataFrame, per tal de permetre fer que les diferents
-# característiques siguin comparables entre elles.
-def standardize_mean(dataset):
-    return MinMaxScaler().fit_transform(dataset)
-
-dataset_norm = standardize_mean(dataset)
-
-
-def split_data(dataset):
-    x_data = dataset[:, 1:]  # Característiques
-    y_data = dataset[:, 0]  # Variable objectiu (target)
+def split_data(dt):
+    x_data = dt[:, 1:]  # Característiques
+    y_data = dt[:, 0]  # Variable objectiu (target)
     # Fa el split de les dades d'entrenament i validació.
     x_t, x_v, y_t, y_v = train_test_split(x_data, y_data, train_size=0.8)
     return x_t, x_v, y_t, y_v
 
-x_t, x_v, y_t, y_v = split_data(dataset_norm)
+x_t, x_v, y_t, y_v = split_data(dataset.values)
 
 
+# Funció que transforma (escala) els valors del dataset de training i de test, per tal de permetre fer que les diferents
+# característiques siguin comparables entre elles.
+def standardize_data(dt_training, dt_test):
+    scaler = MinMaxScaler()
+    training_scaled = scaler.fit_transform(dt_training)
+    test_scaled = scaler.transform(dt_test)
+    return training_scaled, test_scaled
+    #return MinMaxScaler().fit_transform(dt_training)
+
+x_t_norm, x_v_norm = standardize_data(x_t, x_v)
+#w=3
 
 def Logistic_Regressor():
     logireg = LogisticRegression(C=2.0, fit_intercept=True, penalty='l2', tol=0.001, solver='lbfgs', max_iter=1000)
-    logireg.fit(x_t, y_t)  # Entrena el model
-    probs = logireg.predict_proba(x_v)  # Calcula la probabilitat de que X pertanyi a Y=1
-    print("Correct classification Logistic Regression      ", 0.8, "% of the data: ", logireg.score(x_v, y_v))
+    logireg.fit(x_t_norm, y_t)  # Entrena el model
+    probs = logireg.predict_proba(x_v_norm)  # Calcula la probabilitat de que X pertanyi a Y=1
+    print("Correct classification Logistic Regression      ", 0.8, "% of the data: ", logireg.score(x_v_norm, y_v))
 
 Logistic_Regressor()
-x = 3
-
-
-def SVM():
-    svc = svm.SVC(C=10.0, kernel='rbf', gamma=0.9, probability=True)
-    svc.fit(x_t, y_t)  # Entrena el model
-    probs = svc.predict_proba(x_v)  # Calcula la probabilitat de que X pertanyi a Y=1
-
-    print("SVM: percentage of samples classified correctly: {}".format(svc.score(x_v, y_v)))
-
-
-SVM()
-x=3
-
-# +----------------------------------------+
-# | PCA - transformació de dimensionalitat |
-# +----------------------------------------+
-# Funció que genera el regressor multivariable entrenat amb un dataset al qual se li ha aplicat una transformació
-# de dimensionalitat (amb el mètode PCA).
-def make_pca(dataset, player_name, atributes, print_plot):
-    dataset__norm = standardize_mean(dataset[atributes])
-    x_norm = dataset__norm[atributes[0:-1]]
-    y_norm = dataset__norm[atributes[-1]]  # Aquest és l'atribut a predir
-
-    # Separa les dades entre el conjunt d'entrenament i de validació
-    x_train_norm, x_val_norm, y_train_norm, y_val_norm = train_test_split(x_norm, y_norm, test_size=0.2)
-
-    # Vectors que emmagatzemaran les dades per generar els gràfics de l'evolució de l'error.
-    mse_vect = []
-    i_vect = []
-    r2_vect = []
-
-    # Fa la transformació de dimensionalitat per un nombre incremental de components principals.
-    for i in range(1, len(atributes)):
-        pca = PCA(i)
-        x_train_norm_pca = pca.fit_transform(x_train_norm.values)  # Transformació de les dades de training.
-        x_test_norm_pca = pca.transform(x_val_norm.values)  # Transformació de les dades de validació.
-
-        total_var = pca.explained_variance_ratio_.sum() * 100  # Variança total
-        lab = {str(j): f"PC {j + 1}" for j in range(i)}
-        lab['color'] = 'Game_score'
-
-        fig = px.scatter_matrix(
-            x_test_norm_pca,
-            color=y_val_norm,
-            dimensions=range(i),
-            labels=lab,
-            title=f'Total Explained Variance: {total_var:.2f}%',
-        )
-        fig.update_traces(diagonal_visible=False)
-        fig.show()
-
-        linear_model = LogisticRegression()  # Crea el model regressor
-        linear_model.fit(x_train_norm_pca, y_train_norm)  # Entrena el regressor amb les dades d'entrenament
-        preds = linear_model.predict(x_test_norm_pca)  # Fa la predicció sobre les dades de validació
-
-        mse_result = mse(y_val_norm, preds)
-        i_vect.append(i)
-        mse_vect.append(mse_result)
-
-        r2 = r2_score(y_val_norm, preds)
-        r2_vect.append(r2)
-        print("PCA %s: %d - MSE: %f - R2: %f" % (player_name, i, mse_result, r2))
-
-    if print_plot:
-        plt.figure()
-        ax = plt.scatter(x_test_norm_pca[:, 0], y_val_norm)
-        plt.plot(x_test_norm_pca[:, 0], preds, 'r')
-        plt.show()
-
-    fig = plt.figure()
-    ax = plt.subplot(111)
-    ax.plot(i_vect, r2_vect, 'b', label='R2_Score')
-    ax.plot(i_vect, mse_vect, 'r', label='MSE')
-    ax.legend(bbox_to_anchor=(1, 0.8))
-    plt.title("Error per dimensionalitat PCA")
-    plt.show()
-
+#x = 3
 
 # +-------------------------------+
 # | SVM - Support Vectors Machine |
 # +-------------------------------+
+def SVM():
+    svc = svm.SVC(probability=True)
+
+    svc_params = {
+        'C': [0.1, 1, 10, 100, 1000],
+        'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
+        'degree': [3, 4, 5]
+    }
+
+    svc_gs = GridSearchCV(estimator=svc, param_grid=svc_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel SVC
+    svc_gs.fit(x_t_norm, y_t)  # Entrena el model
+
+    print("SVC Best Params: {}".format(svc_gs.best_params_))
+    print("SVC Training score with best params: {}".format(svc_gs.best_estimator_.score(x_t_norm, y_t)))
+    print("SVC Test score with best params: {}".format(svc_gs.best_estimator_.score(x_v_norm, y_v)))
+
+    y_svc_preds = svc_gs.best_estimator_.predict(x_v_norm)
+    print("SVC prediction metrics: {}".format(metrics.classification_report(y_true=y_v, y_pred=y_svc_preds)))
+
+#SVM()
 
 
+def KNN():
+    knn = KNeighborsClassifier()
+    knn.fit(x_t, y_t)  # Entrena el model
+    probs = knn.predict_proba(x_v)  # Calcula la probabilitat de que X pertanyi a Y=1
+    print("Correct classification KNN     ", 0.8, "% of the data: ", knn.score(x_v, y_v))
 
-# +------------------------------------+
-# | ALTRES (ESBORRAR ABANS D'ENTREGAR) |
-# +------------------------------------+
+KNN()
 
-# retorna un vector (x,y), on x és l'índex de la fila i y es el valor
-# bk = dataset["Bankrupt?"]
+def evaluate_model(ground_truth, predictions):
 
+  f1 = f1_score(ground_truth, predictions)
+  precision = precision_score(ground_truth, predictions)
+  recall = recall_score(ground_truth, predictions)
+  accuracy = accuracy_score(ground_truth, predictions)
 
-"""
-plt.figure()
-ax = plt.scatter(data[:, 0], data[:, 1])
-plt.show()
-"""
+  print("F1 Score: {}".format(f1))
+  print("Precision Score: {}".format(precision))
+  print("Recall Score: {}".format(recall))
+  print("Accuracy Score: {}".format(accuracy))
 
-x=3
+def randomForest():
+    rfc = RandomForestClassifier(n_estimators=100, criterion="entropy", n_jobs=-1)
+    rfc.fit(x_t_norm, y_t)
+    y_rfc_preds = rfc.predict(x_v_norm)
+    evaluate_model(list(y_v), list(y_rfc_preds))
 
-"""
-# mostrem atribut 0
-x = data[:, :]
-y = data[:, 0] #Bankrupcy
-plt.figure()
-plt.xlabel("xlabel")
-plt.ylabel("Bankrupcy")
-ax = plt.scatter(x[:, 37], y)
-plt.show()
-"""
+randomForest()
+#x=3
