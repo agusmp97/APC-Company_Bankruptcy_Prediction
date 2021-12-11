@@ -14,6 +14,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import MinMaxScaler
 from sklearn import metrics
 
+from sklearn.utils import resample
+
 
 # +------------------+
 # | CÀRREGA DE DADES |
@@ -22,6 +24,7 @@ from sklearn import metrics
 def load_dataset_from_csv(path):
     dataset = pd.read_csv(path, header=0, delimiter=',')
     return dataset
+
 
 dataset = load_dataset_from_csv('../data/archive/data.csv')
 
@@ -39,7 +42,8 @@ def print_head():
     print(dataset.head())
     print("------------------------------------")
 
-#print_head()
+
+# print_head()
 
 
 # Funció que mostra els tipus de dades de les característiques del Dataset.
@@ -49,7 +53,9 @@ def print_data_types():
     print(dataset.info())
     print("------------------------------------")
 
+
 print_data_types()
+
 
 def print_data_statistics():
     print("------------------------------------")
@@ -57,7 +63,8 @@ def print_data_statistics():
     print(dataset.describe())
     print("------------------------------------")
 
-#print_data_statistics()
+
+# print_data_statistics()
 
 
 # Funció que mostra la dimensionalitat del Dataset
@@ -71,7 +78,8 @@ def df_dimensionality(dataset):
     print("Target (Y) dimensionality: {}".format(y_data.shape))
     print("------------------------------------")
 
-#df_dimensionality(dataset)
+
+# df_dimensionality(dataset)
 
 
 # Funció que calcula si les dades estan balancejades.
@@ -92,7 +100,8 @@ def y_balance(dataset):
     bk_perc = (len(bk[bk == 1]) / len(bk)) * 100
     print('Percentage of companies that go bankrupt: {:.2f}%'.format(bk_perc))
 
-#y_balance(dataset)
+
+# y_balance(dataset)
 
 
 # +-----------------------+
@@ -107,7 +116,8 @@ def pearson_correlation(dataset):
     plt.savefig("../figures/pearson_correlation_matrix_.png")
     plt.show()
 
-#pearson_correlation(dataset)
+
+# pearson_correlation(dataset)
 
 
 def make_histograms(dataset):
@@ -117,7 +127,8 @@ def make_histograms(dataset):
     plt.savefig("../figures/histograms_matrix.png")
     plt.show()
 
-#make_histograms(dataset)
+
+# make_histograms(dataset)
 
 
 # +-----------------------+
@@ -128,6 +139,7 @@ def remove_spaces(dataset):
     dataset.columns = dataset.columns.str.replace(' ', '')
     return dataset
 
+
 dataset = remove_spaces(dataset)
 
 
@@ -135,6 +147,7 @@ dataset = remove_spaces(dataset)
 def remove_columns(dataset):
     dataset = dataset.drop('NetIncomeFlag', axis=1)
     return dataset
+
 
 dataset = remove_columns(dataset)
 
@@ -156,6 +169,7 @@ def nan_treatment(dataset):
 
     return dataset
 
+
 dataset = nan_treatment(dataset)
 
 
@@ -165,6 +179,7 @@ def split_data(dt):
     # Fa el split de les dades d'entrenament i validació.
     x_t, x_v, y_t, y_v = train_test_split(x_data, y_data, train_size=0.8)
     return x_t, x_v, y_t, y_v
+
 
 x_t, x_v, y_t, y_v = split_data(dataset.values)
 
@@ -176,24 +191,64 @@ def standardize_data(dt_training, dt_test):
     training_scaled = scaler.fit_transform(dt_training)
     test_scaled = scaler.transform(dt_test)
     return training_scaled, test_scaled
-    #return MinMaxScaler().fit_transform(dt_training)
+    # return MinMaxScaler().fit_transform(dt_training)
+
 
 x_t_norm, x_v_norm = standardize_data(x_t, x_v)
-#w=3
 
-def Logistic_Regressor():
-    logireg = LogisticRegression(C=2.0, fit_intercept=True, penalty='l2', tol=0.001, solver='lbfgs', max_iter=1000)
-    logireg.fit(x_t_norm, y_t)  # Entrena el model
-    probs = logireg.predict_proba(x_v_norm)  # Calcula la probabilitat de que X pertanyi a Y=1
-    print("Correct classification Logistic Regression      ", 0.8, "% of the data: ", logireg.score(x_v_norm, y_v))
 
-Logistic_Regressor()
-#x = 3
+# w=3
 
-# +-------------------------------+
-# | SVM - Support Vectors Machine |
-# +-------------------------------+
-def SVM():
+
+# Funció que calcula les diferents mètriques d'avaluació per comprovar el funcionament dels classificadors.
+def model_scorings(ground_truth, preds, model_name):
+    f1 = f1_score(ground_truth, preds)
+    precision = precision_score(ground_truth, preds)
+    recall = recall_score(ground_truth, preds)
+    accuracy = accuracy_score(ground_truth, preds)
+
+    print("------------------------------------")
+    print("{} scorings:".format(model_name))
+    print("    Precision: {}".format(precision))
+    print("    Recall: {}".format(recall))
+    print("    F1: {}".format(f1))
+    print("    Accuracy: {}".format(accuracy))
+    print("------------------------------------")
+
+
+# +------------------------+
+# | CLASSIFICATION METHODS |
+# +------------------------+
+
+def logistic_regression():
+    lr = LogisticRegression(fit_intercept=True, tol=0.001, max_iter=1000000)
+
+    lr_params = {
+        'C': [0.1, 1, 10, 100, 1000],
+        'penalty': ['l1', 'l2', 'elasticnet', 'none'],
+        'solver': ['lbfgs', 'sag', 'saga']
+    }
+
+    # Best params
+    # lr_params = {'C': [1], 'penalty': ['l2'], 'solver': ['lbfgs']}
+
+    lr_gs = GridSearchCV(estimator=lr, param_grid=lr_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel LR
+    lr_gs.fit(x_t_norm, y_t)  # Entrena el model
+
+    print("LR Best Params: {}".format(lr_gs.best_params_))
+    print("LR Training score with best params: {}".format(lr_gs.best_estimator_.score(x_t_norm, y_t)))
+    print("LR Test score with best params: {}".format(lr_gs.best_estimator_.score(x_v_norm, y_v)))
+
+    lr_preds = lr_gs.best_estimator_.predict(x_v_norm)
+    print("LR prediction metrics: {}".format(metrics.classification_report(y_true=y_v, y_pred=lr_preds)))
+
+    model_scorings(list(y_v), list(lr_preds), "Logistic Regressor")
+
+# logistic_regression()
+# x = 3
+
+
+def svm_classifier():
     svc = svm.SVC(probability=True)
 
     svc_params = {
@@ -209,37 +264,72 @@ def SVM():
     print("SVC Training score with best params: {}".format(svc_gs.best_estimator_.score(x_t_norm, y_t)))
     print("SVC Test score with best params: {}".format(svc_gs.best_estimator_.score(x_v_norm, y_v)))
 
-    y_svc_preds = svc_gs.best_estimator_.predict(x_v_norm)
-    print("SVC prediction metrics: {}".format(metrics.classification_report(y_true=y_v, y_pred=y_svc_preds)))
+    svc_preds = svc_gs.best_estimator_.predict(x_v_norm)
+    print("SVC prediction metrics: {}".format(metrics.classification_report(y_true=y_v, y_pred=svc_preds)))
 
-#SVM()
+# svm_classifier()
 
 
-def KNN():
-    knn = KNeighborsClassifier()
+def knn_classifier():
+    knn = KNeighborsClassifier(algorithm='auto')
+
+    knn_params = {
+        'n_neighbors': [2, 5, 10, 20, 40, 80],
+        'weights': ['uniform', 'distance'],
+        'p': [1, 2]
+    }
+
+    knn_gs = GridSearchCV(estimator=knn, param_grid=knn_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel KNN
+    knn_gs.fit(x_t_norm, y_t)  # Entrena el model
+
+    print("KNN Best Params: {}".format(knn_gs.best_params_))
+    print("KNN Training score with best params: {}".format(knn_gs.best_estimator_.score(x_t_norm, y_t)))
+    print("KNN Test score with best params: {}".format(knn_gs.best_estimator_.score(x_v_norm, y_v)))
+
+    knn_preds = knn_gs.best_estimator_.predict(x_v_norm)
+    print("KNN prediction metrics: {}".format(metrics.classification_report(y_true=y_v, y_pred=knn_preds)))
+
+    """
     knn.fit(x_t, y_t)  # Entrena el model
     probs = knn.predict_proba(x_v)  # Calcula la probabilitat de que X pertanyi a Y=1
     print("Correct classification KNN     ", 0.8, "% of the data: ", knn.score(x_v, y_v))
+    """
 
-KNN()
+#knn_classifier()
+#x = 3
 
-def evaluate_model(ground_truth, predictions):
 
-  f1 = f1_score(ground_truth, predictions)
-  precision = precision_score(ground_truth, predictions)
-  recall = recall_score(ground_truth, predictions)
-  accuracy = accuracy_score(ground_truth, predictions)
+def random_forest_classifier():
+    rfc = RandomForestClassifier()
 
-  print("F1 Score: {}".format(f1))
-  print("Precision Score: {}".format(precision))
-  print("Recall Score: {}".format(recall))
-  print("Accuracy Score: {}".format(accuracy))
+    rfc_params = {
+        'n_estimators': [200, 500],
+        'max_features': ['auto', 'sqrt', 'log2'],
+        'max_depth': [4, 5, 6, 7, 8],
+        'criterion': ['gini', 'entropy']
+    }
 
-def randomForest():
-    rfc = RandomForestClassifier(n_estimators=100, criterion="entropy", n_jobs=-1)
+    rfc_gs = GridSearchCV(estimator=rfc, param_grid=rfc_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel RF
+    rfc_gs.fit(x_t_norm, y_t)  # Entrena el model
+
+    print("RFC Best Params: {}".format(rfc_gs.best_params_))
+    print("RFC Training score with best params: {}".format(rfc_gs.best_estimator_.score(x_t_norm, y_t)))
+    print("RFC Test score with best params: {}".format(rfc_gs.best_estimator_.score(x_v_norm, y_v)))
+
+    rfc_preds = rfc_gs.best_estimator_.predict(x_v_norm)
+    print("RFC prediction metrics: {}".format(metrics.classification_report(y_true=y_v, y_pred=rfc_preds)))
+
+    """
     rfc.fit(x_t_norm, y_t)
-    y_rfc_preds = rfc.predict(x_v_norm)
-    evaluate_model(list(y_v), list(y_rfc_preds))
+    rfc_preds = rfc.predict(x_v_norm)
+    model_scorings(list(y_v), list(rfc_preds), "Random Forest Classifier")
+    """
 
-randomForest()
-#x=3
+
+random_forest_classifier()
+x=3
+
+
+df_majority = dataset[dataset.balance==0]
+df_minority = dataset[dataset.balance==1]
+w=0

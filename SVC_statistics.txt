@@ -1,0 +1,142 @@
++---------------------+
+| Logistic Regression |
++---------------------+
+
+lr_params = {'C': [0.1, 1, 10, 100, 1000], 'penalty': ['l1', 'l2', 'elasticnet', 'none'], 'solver': ['lbfgs', 'sag', 'saga']}
+
+LR Best Params: {'C': 1, 'penalty': 'l2', 'solver': 'lbfgs'}
+LR Training score with best params: 0.9714023831347388
+LR Test score with best params: 0.9640762463343109
+LR prediction metrics:  precision    recall  f1-score   support
+									 0.0       0.97      1.00      0.98      1314
+									 1.0       0.57      0.08      0.14        50
+							accuracy                           0.96      1364
+						 macro avg       0.77      0.54      0.56      1364
+					weighted avg       0.95      0.96      0.95      1364
+					
+------------------------------------
+Logistic Regressor scorings:
+    Precision: 0.6
+    Recall: 0.1875
+    F1: 0.2857142857142857
+    Accuracy: 0.967008797653959
+------------------------------------
+
+
++---------------------------+
+| Support Vector Classifier |
++---------------------------+
+
+svc_params = {'C':[1,2,3,4,5],'kernel':['linear', 'poly', 'rbf', 'sigmoid'],'degree':[3,4,5]}
+
+SVC Best Params: {'C': 5, 'degree': 3, 'kernel': 'poly'}
+SVC Training score with best params: 0.9704857928505958
+SVC Test score with best params: 0.9655425219941349
+SVC prediction metrics:   precision    recall  f1-score   support
+										 0.0       0.97      1.00      0.98      1319
+										 1.0       0.33      0.04      0.08        45
+								accuracy                           0.97      1364
+							 macro avg       0.65      0.52      0.53      1364
+						weighted avg       0.95      0.97      0.95      1364
+
+
+
+
+
+svc_params = {'C': [0.1, 1, 10, 100, 1000],'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],'degree': [3, 4, 5]}
+
+SVC Best Params: {'C': 1000, 'degree': 3, 'kernel': 'linear'}
+SVC Training score with best params: 0.970852428964253
+SVC Test score with best params: 0.968475073313783
+SVC prediction metrics:   precision    recall  f1-score   support
+										 0.0       0.97      1.00      0.98      1323
+										 1.0       0.33      0.05      0.09        41
+								accuracy                           0.97      1364
+							 macro avg       0.65      0.52      0.53      1364
+						weighted avg       0.95      0.97      0.96      1364
+
+
++---------------------+
+| K Nearest Neighbors |
++---------------------+
+
+knn_params = {'n_neighbors': [1, 5, 10, 100], 'weights': ['uniform', 'distance'], 'p': [1, 2]}
+
+KNN Best Params: {'n_neighbors': 5, 'p': 1, 'weights': 'distance'}
+KNN Training score with best params: 1.0
+KNN Test score with best params: 0.9648093841642229
+KNN prediction metrics:   precision    recall  f1-score   support
+										 0.0       0.97      1.00      0.98      1316
+										 1.0       0.50      0.08      0.14        48
+								accuracy                           0.96      1364
+							 macro avg       0.73      0.54      0.56      1364
+						weighted avg       0.95      0.96      0.95      1364
+
+
+
+knn_params = {'n_neighbors': [1, 5, 10, 100, 1000], 'weights': ['uniform', 'distance'], 'p': [1, 2]}
+
+KNN Best Params: {'n_neighbors': 10, 'p': 1, 'weights': 'distance'}
+KNN Training score with best params: 1.0
+KNN Test score with best params: 0.9648093841642229
+KNN prediction metrics:   precision    recall  f1-score   support
+										 0.0       0.97      1.00      0.98      1316
+										 1.0       0.50      0.04      0.08        48
+								accuracy                           0.96      1364
+							 macro avg       0.73      0.52      0.53      1364
+						weighted avg       0.95      0.96      0.95      1364
+
+
+
+knn_params = {'n_neighbors': [1, 5, 10, 100, 1000], 'weights': ['uniform', 'distance'], 'p': [1, 2]}
+
+KNN Best Params: {'n_neighbors': 5, 'p': 1, 'weights': 'distance'}
+KNN Training score with best params: 1.0
+KNN Test score with best params: 0.9604105571847508
+KNN prediction metrics:   precision    recall  f1-score   support
+										 0.0       0.96      1.00      0.98      1306
+										 1.0       0.64      0.16      0.25        58
+								accuracy                           0.96      1364
+							 macro avg       0.80      0.58      0.61      1364
+						weighted avg       0.95      0.96      0.95      1364
+
+
+knn_params = {'n_neighbors': [2, 5, 10, 20, 40, 80], 'weights': ['uniform', 'distance'], 'p': [1, 2]}
+
+KNN Best Params: {'n_neighbors': 5, 'p': 1, 'weights': 'uniform'}
+KNN Training score with best params: 0.971769019248396
+KNN Test score with best params: 0.9721407624633431
+KNN prediction metrics:               precision    recall  f1-score   support
+         0.0       0.97      1.00      0.99      1325
+         1.0       0.60      0.08      0.14        39
+    accuracy                           0.97      1364
+   macro avg       0.79      0.54      0.56      1364
+weighted avg       0.96      0.97      0.96      1364
+
+
+
+
+
+rfc_params = {
+        'n_estimators': [200, 500],
+        'max_features': ['auto', 'sqrt', 'log2'],
+        'max_depth': [4, 5, 6, 7, 8],
+        'criterion': ['gini', 'entropy']
+    }
+
+
+RFC Best Params: {'criterion': 'gini', 'max_depth': 6, 'max_features': 'auto', 'n_estimators': 500}
+RFC Training score with best params: 0.9807516040329972
+RFC Test score with best params: 0.9736070381231672
+RFC prediction metrics:               precision    recall  f1-score   support
+
+         0.0       0.97      1.00      0.99      1328
+         1.0       0.50      0.06      0.10        36
+
+    accuracy                           0.97      1364
+   macro avg       0.74      0.53      0.54      1364
+weighted avg       0.96      0.97      0.96      1364
+
+
+
+
