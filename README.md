@@ -4,6 +4,8 @@
 ### URL: [kaggle](https://www.kaggle.com/fedesoriano/company-bankruptcy-prediction)
 
 ## Resum
+Aquest projecte consisteix en predir si una empresa caurà en fallida o no a partir de les dades que conté el conjunt de dades, anomenat [Company Bankruptcy Prediction](https://www.kaggle.com/fedesoriano/company-bankruptcy-prediction).
+
 El dataset utilitza dades extretes del Taiwan Economic Journal entre els anys 1999 i 2009. Així, per determinar quan una empresa és fallida (Bankruptcy = 1) s'utilitzen les regulacions comercials definides a la Borsa de Valors de Taiwan.
 
 El conjunt de dades està format per 6819 registres, amb 96 atributs cadascun d'ells. D'aquests, 95 atributs s'utilitzaran com a característiques d'entrada al model, mentre que l'atribut "Bankrupt?" és l'atribut objectiu o *target* que es vol predir.
@@ -152,7 +154,7 @@ Per tal de fer una prova, es pot fer servir amb la següent comanda:
 `python3 demo/demo.py --input here`
 
 ## Conclusions
-El millor model que s'ha aconseguit ha estat el KNN, ja que, encara que els resultats de les prediccions són molt semblants als altres models, el temps d'entrenament del model és notablement inferior.
+El millor model que s'ha aconseguit ha estat el KNN, ja que, encara que els resultats de les prediccions són molt semblants als altres models, el temps de trobar els millors hiperparàmetres per al model és notablement inferior.
 En comparació amb l'estat de l'art i els altres treballs que s'han analitzat, els models implementats en aquest projecte obtenen uns resultats similars als explorats. Això és degut a les poques dades d'empreses fallides que conté el dataset, pel que no es poden optimitzar gaire més els models sense fer un resampling de les dades.
 
 Així, cal destacar que com les dades estan tan desbalancejades (només un 3,23% de les empreses són fallides), és complex per als classificadors predir amb un gran nombre d'encerts les empreses que són fallides, ja que no es disposen de dades suficients d'aquest tipus que permetin fer un entrenament exhaustiu.
