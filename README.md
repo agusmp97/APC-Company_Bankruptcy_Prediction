@@ -11,102 +11,102 @@ El conjunt de dades està format per 6819 registres, amb 96 atributs cadascun d'
 Concretament, la llista d'atributs d'aquest dataset és:
 
  0   Bankrupt?                                                 6819 non-null   int64 </br>
- 1    ROA(C) before interest and depreciation before interest  6819 non-null   float64
- 2    ROA(A) before interest and % after tax                   6819 non-null   float64
- 3    ROA(B) before interest and depreciation after tax        6819 non-null   float64
- 4    Operating Gross Margin                                   6819 non-null   float64
- 5    Realized Sales Gross Margin                              6819 non-null   float64
- 6    Operating Profit Rate                                    6819 non-null   float64
- 7    Pre-tax net Interest Rate                                6819 non-null   float64
- 8    After-tax net Interest Rate                              6819 non-null   float64
- 9    Non-industry income and expenditure/revenue              6819 non-null   float64
- 10   Continuous interest rate (after tax)                     6819 non-null   float64
- 11   Operating Expense Rate                                   6819 non-null   float64
- 12   Research and development expense rate                    6819 non-null   float64
- 13   Cash flow rate                                           6819 non-null   float64
- 14   Interest-bearing debt interest rate                      6819 non-null   float64
- 15   Tax rate (A)                                             6819 non-null   float64
- 16   Net Value Per Share (B)                                  6819 non-null   float64
- 17   Net Value Per Share (A)                                  6819 non-null   float64
- 18   Net Value Per Share (C)                                  6819 non-null   float64
- 19   Persistent EPS in the Last Four Seasons                  6819 non-null   float64
- 20   Cash Flow Per Share                                      6819 non-null   float64
- 21   Revenue Per Share (Yuan ¥)                               6819 non-null   float64
- 22   Operating Profit Per Share (Yuan ¥)                      6819 non-null   float64
- 23   Per Share Net profit before tax (Yuan ¥)                 6819 non-null   float64
- 24   Realized Sales Gross Profit Growth Rate                  6819 non-null   float64
- 25   Operating Profit Growth Rate                             6819 non-null   float64
- 26   After-tax Net Profit Growth Rate                         6819 non-null   float64
- 27   Regular Net Profit Growth Rate                           6819 non-null   float64
- 28   Continuous Net Profit Growth Rate                        6819 non-null   float64
- 29   Total Asset Growth Rate                                  6819 non-null   float64
- 30   Net Value Growth Rate                                    6819 non-null   float64
- 31   Total Asset Return Growth Rate Ratio                     6819 non-null   float64
- 32   Cash Reinvestment %                                      6819 non-null   float64
- 33   Current Ratio                                            6819 non-null   float64
- 34   Quick Ratio                                              6819 non-null   float64
- 35   Interest Expense Ratio                                   6819 non-null   float64
- 36   Total debt/Total net worth                               6819 non-null   float64
- 37   Debt ratio %                                             6819 non-null   float64
- 38   Net worth/Assets                                         6819 non-null   float64
- 39   Long-term fund suitability ratio (A)                     6819 non-null   float64
- 40   Borrowing dependency                                     6819 non-null   float64
- 41   Contingent liabilities/Net worth                         6819 non-null   float64
- 42   Operating profit/Paid-in capital                         6819 non-null   float64
- 43   Net profit before tax/Paid-in capital                    6819 non-null   float64
- 44   Inventory and accounts receivable/Net value              6819 non-null   float64
- 45   Total Asset Turnover                                     6819 non-null   float64
- 46   Accounts Receivable Turnover                             6819 non-null   float64
- 47   Average Collection Days                                  6819 non-null   float64
- 48   Inventory Turnover Rate (times)                          6819 non-null   float64
- 49   Fixed Assets Turnover Frequency                          6819 non-null   float64
- 50   Net Worth Turnover Rate (times)                          6819 non-null   float64
- 51   Revenue per person                                       6819 non-null   float64
- 52   Operating profit per person                              6819 non-null   float64
- 53   Allocation rate per person                               6819 non-null   float64
- 54   Working Capital to Total Assets                          6819 non-null   float64
- 55   Quick Assets/Total Assets                                6819 non-null   float64
- 56   Current Assets/Total Assets                              6819 non-null   float64
- 57   Cash/Total Assets                                        6819 non-null   float64
- 58   Quick Assets/Current Liability                           6819 non-null   float64
- 59   Cash/Current Liability                                   6819 non-null   float64
- 60   Current Liability to Assets                              6819 non-null   float64
- 61   Operating Funds to Liability                             6819 non-null   float64
- 62   Inventory/Working Capital                                6819 non-null   float64
- 63   Inventory/Current Liability                              6819 non-null   float64
- 64   Current Liabilities/Liability                            6819 non-null   float64
- 65   Working Capital/Equity                                   6819 non-null   float64
- 66   Current Liabilities/Equity                               6819 non-null   float64
- 67   Long-term Liability to Current Assets                    6819 non-null   float64
- 68   Retained Earnings to Total Assets                        6819 non-null   float64
- 69   Total income/Total expense                               6819 non-null   float64
- 70   Total expense/Assets                                     6819 non-null   float64
- 71   Current Asset Turnover Rate                              6819 non-null   float64
- 72   Quick Asset Turnover Rate                                6819 non-null   float64
- 73   Working capitcal Turnover Rate                           6819 non-null   float64
- 74   Cash Turnover Rate                                       6819 non-null   float64
- 75   Cash Flow to Sales                                       6819 non-null   float64
- 76   Fixed Assets to Assets                                   6819 non-null   float64
- 77   Current Liability to Liability                           6819 non-null   float64
- 78   Current Liability to Equity                              6819 non-null   float64
- 79   Equity to Long-term Liability                            6819 non-null   float64
- 80   Cash Flow to Total Assets                                6819 non-null   float64
- 81   Cash Flow to Liability                                   6819 non-null   float64
- 82   CFO to Assets                                            6819 non-null   float64
- 83   Cash Flow to Equity                                      6819 non-null   float64
- 84   Current Liability to Current Assets                      6819 non-null   float64
- 85   Liability-Assets Flag                                    6819 non-null   int64
- 86   Net Income to Total Assets                               6819 non-null   float64
- 87   Total assets to GNP price                                6819 non-null   float64
- 88   No-credit Interval                                       6819 non-null   float64
- 89   Gross Profit to Sales                                    6819 non-null   float64
- 90   Net Income to Stockholder's Equity                       6819 non-null   float64
- 91   Liability to Equity                                      6819 non-null   float64
- 92   Degree of Financial Leverage (DFL)                       6819 non-null   float64
- 93   Interest Coverage Ratio (Interest expense to EBIT)       6819 non-null   float64
- 94   Net Income Flag                                          6819 non-null   int64
- 95   Equity to Liability                                      6819 non-null   float64
-dtypes: float64(93), int64(3)
+ 1    ROA(C) before interest and depreciation before interest  6819 non-null   float64</br>
+ 2    ROA(A) before interest and % after tax                   6819 non-null   float64</br>
+ 3    ROA(B) before interest and depreciation after tax        6819 non-null   float64</br>
+ 4    Operating Gross Margin                                   6819 non-null   float64</br>
+ 5    Realized Sales Gross Margin                              6819 non-null   float64</br>
+ 6    Operating Profit Rate                                    6819 non-null   float64</br>
+ 7    Pre-tax net Interest Rate                                6819 non-null   float64</br>
+ 8    After-tax net Interest Rate                              6819 non-null   float64</br>
+ 9    Non-industry income and expenditure/revenue              6819 non-null   float64</br>
+ 10   Continuous interest rate (after tax)                     6819 non-null   float64</br>
+ 11   Operating Expense Rate                                   6819 non-null   float64</br>
+ 12   Research and development expense rate                    6819 non-null   float64</br>
+ 13   Cash flow rate                                           6819 non-null   float64</br>
+ 14   Interest-bearing debt interest rate                      6819 non-null   float64</br>
+ 15   Tax rate (A)                                             6819 non-null   float64</br>
+ 16   Net Value Per Share (B)                                  6819 non-null   float64</br>
+ 17   Net Value Per Share (A)                                  6819 non-null   float64</br>
+ 18   Net Value Per Share (C)                                  6819 non-null   float64</br>
+ 19   Persistent EPS in the Last Four Seasons                  6819 non-null   float64</br>
+ 20   Cash Flow Per Share                                      6819 non-null   float64</br>
+ 21   Revenue Per Share (Yuan ¥)                               6819 non-null   float64</br>
+ 22   Operating Profit Per Share (Yuan ¥)                      6819 non-null   float64</br>
+ 23   Per Share Net profit before tax (Yuan ¥)                 6819 non-null   float64</br>
+ 24   Realized Sales Gross Profit Growth Rate                  6819 non-null   float64</br>
+ 25   Operating Profit Growth Rate                             6819 non-null   float64</br>
+ 26   After-tax Net Profit Growth Rate                         6819 non-null   float64</br>
+ 27   Regular Net Profit Growth Rate                           6819 non-null   float64</br>
+ 28   Continuous Net Profit Growth Rate                        6819 non-null   float64</br>
+ 29   Total Asset Growth Rate                                  6819 non-null   float64</br>
+ 30   Net Value Growth Rate                                    6819 non-null   float64</br>
+ 31   Total Asset Return Growth Rate Ratio                     6819 non-null   float64</br>
+ 32   Cash Reinvestment %                                      6819 non-null   float64</br>
+ 33   Current Ratio                                            6819 non-null   float64</br>
+ 34   Quick Ratio                                              6819 non-null   float64</br>
+ 35   Interest Expense Ratio                                   6819 non-null   float64</br>
+ 36   Total debt/Total net worth                               6819 non-null   float64</br>
+ 37   Debt ratio %                                             6819 non-null   float64</br>
+ 38   Net worth/Assets                                         6819 non-null   float64</br>
+ 39   Long-term fund suitability ratio (A)                     6819 non-null   float64</br>
+ 40   Borrowing dependency                                     6819 non-null   float64</br>
+ 41   Contingent liabilities/Net worth                         6819 non-null   float64</br>
+ 42   Operating profit/Paid-in capital                         6819 non-null   float64</br>
+ 43   Net profit before tax/Paid-in capital                    6819 non-null   float64</br>
+ 44   Inventory and accounts receivable/Net value              6819 non-null   float64</br>
+ 45   Total Asset Turnover                                     6819 non-null   float64</br>
+ 46   Accounts Receivable Turnover                             6819 non-null   float64</br>
+ 47   Average Collection Days                                  6819 non-null   float64</br>
+ 48   Inventory Turnover Rate (times)                          6819 non-null   float64</br>
+ 49   Fixed Assets Turnover Frequency                          6819 non-null   float64</br>
+ 50   Net Worth Turnover Rate (times)                          6819 non-null   float64</br>
+ 51   Revenue per person                                       6819 non-null   float64</br>
+ 52   Operating profit per person                              6819 non-null   float64</br>
+ 53   Allocation rate per person                               6819 non-null   float64</br>
+ 54   Working Capital to Total Assets                          6819 non-null   float64</br>
+ 55   Quick Assets/Total Assets                                6819 non-null   float64</br>
+ 56   Current Assets/Total Assets                              6819 non-null   float64</br>
+ 57   Cash/Total Assets                                        6819 non-null   float64</br>
+ 58   Quick Assets/Current Liability                           6819 non-null   float64</br>
+ 59   Cash/Current Liability                                   6819 non-null   float64</br>
+ 60   Current Liability to Assets                              6819 non-null   float64</br>
+ 61   Operating Funds to Liability                             6819 non-null   float64</br>
+ 62   Inventory/Working Capital                                6819 non-null   float64</br>
+ 63   Inventory/Current Liability                              6819 non-null   float64</br>
+ 64   Current Liabilities/Liability                            6819 non-null   float64</br>
+ 65   Working Capital/Equity                                   6819 non-null   float64</br>
+ 66   Current Liabilities/Equity                               6819 non-null   float64</br>
+ 67   Long-term Liability to Current Assets                    6819 non-null   float64</br>
+ 68   Retained Earnings to Total Assets                        6819 non-null   float64</br>
+ 69   Total income/Total expense                               6819 non-null   float64</br>
+ 70   Total expense/Assets                                     6819 non-null   float64</br>
+ 71   Current Asset Turnover Rate                              6819 non-null   float64</br>
+ 72   Quick Asset Turnover Rate                                6819 non-null   float64</br>
+ 73   Working capitcal Turnover Rate                           6819 non-null   float64</br>
+ 74   Cash Turnover Rate                                       6819 non-null   float64</br>
+ 75   Cash Flow to Sales                                       6819 non-null   float64</br>
+ 76   Fixed Assets to Assets                                   6819 non-null   float64</br>
+ 77   Current Liability to Liability                           6819 non-null   float64</br>
+ 78   Current Liability to Equity                              6819 non-null   float64</br>
+ 79   Equity to Long-term Liability                            6819 non-null   float64</br>
+ 80   Cash Flow to Total Assets                                6819 non-null   float64</br>
+ 81   Cash Flow to Liability                                   6819 non-null   float64</br>
+ 82   CFO to Assets                                            6819 non-null   float64</br>
+ 83   Cash Flow to Equity                                      6819 non-null   float64</br>
+ 84   Current Liability to Current Assets                      6819 non-null   float64</br>
+ 85   Liability-Assets Flag                                    6819 non-null   int64</br>
+ 86   Net Income to Total Assets                               6819 non-null   float64</br>
+ 87   Total assets to GNP price                                6819 non-null   float64</br>
+ 88   No-credit Interval                                       6819 non-null   float64</br>
+ 89   Gross Profit to Sales                                    6819 non-null   float64</br>
+ 90   Net Income to Stockholder's Equity                       6819 non-null   float64</br>
+ 91   Liability to Equity                                      6819 non-null   float64</br>
+ 92   Degree of Financial Leverage (DFL)                       6819 non-null   float64</br>
+ 93   Interest Coverage Ratio (Interest expense to EBIT)       6819 non-null   float64</br>
+ 94   Net Income Flag                                          6819 non-null   int64</br>
+ 95   Equity to Liability                                      6819 non-null   float64</br>
+dtypes: float64(93), int64(3)</br>
 
 Així, com es pot observar, la gran majoria dels atributs és de tipus float64, mentre que únicament 3 d'ells són de tipus int64. A més, cal destacar que, segurament degut a que són dades de caràcter oficial, no hi ha cap valor inexistent al conjunt de dades, la qual cosa aporta un gran avantatge ja que, encara que algunes d'elles puguin contenir errors de diversos tipus (d'introducció, de mesura, de càlcul, etc.), no s'han de fer suposicions ni omplir buits de dades.
 
