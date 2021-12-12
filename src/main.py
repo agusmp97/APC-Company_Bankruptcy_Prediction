@@ -23,7 +23,8 @@ def load_dataset_from_csv(path):
     dataset = pd.read_csv(path, header=0, delimiter=',')
     return dataset
 
-dataset = load_dataset_from_csv('../data/archive/data.csv')
+#dataset = load_dataset_from_csv('../data/archive/data.csv')
+dataset = load_dataset_from_csv('data/archive/data.csv')
 
 
 # Funció que selecciona 10 registres aleatòriament del dataset per utilitzar-les com a dades de demo.
@@ -57,7 +58,8 @@ def export_demo_data(dt):
 
     demo_df = pd.DataFrame(df_data, columns=df_columns)
     demo_df = demo_df.reset_index(drop=True)
-    demo_df.to_csv('../data/demo_data.csv', index=False)
+    #demo_df.to_csv('../data/demo_data.csv', index=False)
+    demo_df.to_csv('data/demo_data.csv', index=False)
     return aux_dataset
 
 dataset = export_demo_data(dataset)
@@ -250,7 +252,7 @@ def logistic_regression(x_training, y_training, x_test, y_test):
     print("LR Test score with best params: {}".format(lr_gs.best_estimator_.score(x_test, y_test)))
 
     lr_preds = lr_gs.best_estimator_.predict(x_test)
-    print("LR prediction metrics: {}".format(metrics.classification_report(y_true=y_test, y_pred=lr_preds)))
+    print("LR prediction metrics: \n{}".format(metrics.classification_report(y_true=y_test, y_pred=lr_preds)))
 
     create_confusion_matrix(y_test, lr_preds, "Logistic Regressor")
 
@@ -278,7 +280,7 @@ def svm_classifier(x_training, y_training, x_test, y_test):
     print("SVC Test score with best params: {}".format(svc_gs.best_estimator_.score(x_test, y_test)))
 
     svc_preds = svc_gs.best_estimator_.predict(x_test)
-    print("SVC prediction metrics: {}".format(metrics.classification_report(y_true=y_test, y_pred=svc_preds)))
+    print("SVC prediction metrics: \n{}".format(metrics.classification_report(y_true=y_test, y_pred=svc_preds)))
 
     create_confusion_matrix(y_test, svc_preds, "Support Vectors Classifier")
 
@@ -306,7 +308,7 @@ def knn_classifier(x_training, y_training, x_test, y_test):
     print("KNN Test score with best params: {}".format(knn_gs.best_estimator_.score(x_test, y_test)))
 
     knn_preds = knn_gs.best_estimator_.predict(x_test)
-    print("KNN prediction metrics: {}".format(metrics.classification_report(y_true=y_test, y_pred=knn_preds)))
+    print("KNN prediction metrics: \n{}".format(metrics.classification_report(y_true=y_test, y_pred=knn_preds)))
 
     create_confusion_matrix(y_test, knn_preds, "K Nearest Neighbors Classifier")
 
@@ -335,7 +337,7 @@ def random_forest_classifier(x_training, y_training, x_test, y_test):
     print("RFC Test score with best params: {}".format(rfc_gs.best_estimator_.score(x_test, y_test)))
 
     rfc_preds = rfc_gs.best_estimator_.predict(x_test)
-    print("RFC prediction metrics: {}".format(metrics.classification_report(y_true=y_test, y_pred=rfc_preds)))
+    print("RFC prediction metrics: \n{}".format(metrics.classification_report(y_true=y_test, y_pred=rfc_preds)))
 
     create_confusion_matrix(y_test, rfc_preds, "Random Forest Classifier")
 

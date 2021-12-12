@@ -150,8 +150,9 @@ Després d'aquest anàlisi de les dades, s'ha començat amb el preprocessament d
 | Random Forest Classifier | 'criterion': 'gini', 'max\_depth': 8, 'max\_features': 'sqrt', 'n\_estimators': 200 | f1-score: Classe 0: 0.98, Classe 1: 0.16 | 614.19 s |
 
 ## Demo
-Per tal de fer una prova, es pot fer servir amb la següent comanda:
-`python3 demo/demo.py --input here`
+Per poder provar el funcionament dels models entrenats s'han d'executar les següents dues comandes, des de dins del directori `APC-Company_Bankruptcy_Prediction`:
+1. `export PYTHONPATH=$PYTHONPATH:$(pwd)/utils`
+2. `python3 demo/demo.py`
 
 ## Conclusions
 El millor model que s'ha aconseguit ha estat el KNN, ja que, encara que els resultats de les prediccions són molt semblants als altres models, el temps de trobar els millors hiperparàmetres per al model és notablement inferior.
