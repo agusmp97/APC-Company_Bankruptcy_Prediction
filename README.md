@@ -9,7 +9,7 @@ El dataset utilitza dades extretes del Taiwan Economic Journal entre els anys 19
 El conjunt de dades està format per 6819 registres, amb 96 atributs cadascun d'ells. D'aquests, 95 atributs s'utilitzaran com a característiques d'entrada al model, mentre que l'atribut "Bankrupt?" és l'atribut objectiu o *target* que es vol predir.
 
 Concretament, la llista d'atributs d'aquest dataset és:
-
+```
  0   Bankrupt?                                                 6819 non-null   int64 </br>
  1    ROA(C) before interest and depreciation before interest  6819 non-null   float64</br>
  2    ROA(A) before interest and % after tax                   6819 non-null   float64</br>
@@ -102,11 +102,12 @@ Concretament, la llista d'atributs d'aquest dataset és:
  89   Gross Profit to Sales                                    6819 non-null   float64</br>
  90   Net Income to Stockholder's Equity                       6819 non-null   float64</br>
  91   Liability to Equity                                      6819 non-null   float64</br>
- 92   Degree of Financial Leverage (DFL)                       6819 non-null   float64</br>
- 93   Interest Coverage Ratio (Interest expense to EBIT)       6819 non-null   float64</br>
- 94   Net Income Flag                                          6819 non-null   int64</br>
- 95   Equity to Liability                                      6819 non-null   float64</br>
+ 92   Degree of Financial Leverage (DFL)                       6819 non-null   float64
+ 93   Interest Coverage Ratio (Interest expense to EBIT)       6819 non-null   float64
+ 94   Net Income Flag                                          6819 non-null   int64
+ 95   Equity to Liability                                      6819 non-null   float64
 dtypes: float64(93), int64(3)</br>
+```
 
 Així, com es pot observar, la gran majoria dels atributs és de tipus float64, mentre que únicament 3 d'ells són de tipus int64. A més, cal destacar que, segurament degut a que són dades de caràcter oficial, no hi ha cap valor inexistent al conjunt de dades, la qual cosa aporta un gran avantatge ja que, encara que algunes d'elles puguin contenir errors de diversos tipus (d'introducció, de mesura, de càlcul, etc.), no s'han de fer suposicions ni omplir buits de dades.
 
