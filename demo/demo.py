@@ -1,6 +1,8 @@
 from joblib import load
 from sklearn import metrics
 import src.main as main
+import warnings
+warnings.filterwarnings('ignore')
 
 # ATENCIÓ: descomentar les següents 5 línies si es vol executar des del projecte amb un IDE (PyCharm o altres).
 """

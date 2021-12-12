@@ -12,6 +12,8 @@ from sklearn.metrics import confusion_matrix
 from matplotlib import pyplot as plt
 from joblib import dump
 from random import randint
+import warnings
+warnings.filterwarnings('ignore')
 
 
 
