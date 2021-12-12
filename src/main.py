@@ -17,6 +17,7 @@ from sklearn.metrics import confusion_matrix
 from matplotlib import pyplot as plt
 from joblib import dump, load
 from random import randint
+import time
 
 from sklearn.utils import resample
 
@@ -273,7 +274,7 @@ def create_confusion_matrix(ground_truth, preds, model_name):
 # +------------------------+
 
 def logistic_regression(x_training, y_training, x_test, y_test):
-    lr = LogisticRegression(fit_intercept=True, tol=0.001, max_iter=1000000)
+    lr = LogisticRegression(fit_intercept=True, tol=0.001, max_iter=10000000)
 
     lr_params = {
         'C': [0.1, 1, 10, 100, 1000],
@@ -285,7 +286,10 @@ def logistic_regression(x_training, y_training, x_test, y_test):
     # lr_params = {'C': [1], 'penalty': ['l2'], 'solver': ['lbfgs']}
 
     lr_gs = GridSearchCV(estimator=lr, param_grid=lr_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel LR
+    start = time.time()
     lr_model = lr_gs.fit(x_training, y_training)  # Entrena el model
+    end = time.time()
+    print("LR training time: {}".format(end-start))
     dump(lr_model, '../models/logistic_regressor.joblib')
 
     print("LR Best Params: {}".format(lr_gs.best_params_))
@@ -313,7 +317,10 @@ def svm_classifier(x_training, y_training, x_test, y_test):
     }
 
     svc_gs = GridSearchCV(estimator=svc, param_grid=svc_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel LR
+    start = time.time()
     svc_model = svc_gs.fit(x_training, y_training)  # Entrena el model
+    end = time.time()
+    print("SVC training time: {}".format(end - start))
     dump(svc_model, '../models/support_vectors_classifier.joblib')
 
     print("SVC Best Params: {}".format(svc_gs.best_params_))
@@ -356,7 +363,10 @@ def knn_classifier(x_training, y_training, x_test, y_test):
     }
 
     knn_gs = GridSearchCV(estimator=knn, param_grid=knn_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel LR
+    start = time.time()
     knn_model = knn_gs.fit(x_training, y_training)  # Entrena el model
+    end = time.time()
+    print("KNN training time: {}".format(end - start))
     dump(knn_model, '../models/k_nearest_neighbors_classifier.joblib')
 
     print("KNN Best Params: {}".format(knn_gs.best_params_))
@@ -407,7 +417,10 @@ def random_forest_classifier(x_training, y_training, x_test, y_test):
     }
 
     rfc_gs = GridSearchCV(estimator=rfc, param_grid=rfc_params, n_jobs=-1)  # Busca els millors hiperparàmetres pel LR
+    start = time.time()
     rfc_model = rfc_gs.fit(x_training, y_training)  # Entrena el model
+    end = time.time()
+    print("RFC training time: {}".format(end - start))
     dump(rfc_model, '../models/random_forest_classifier.joblib')
 
     print("RFC Best Params: {}".format(rfc_gs.best_params_))
