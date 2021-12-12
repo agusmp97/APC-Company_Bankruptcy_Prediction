@@ -29,7 +29,7 @@ print("KNN prediction metrics: {}".format(metrics.classification_report(y_true=Y
 
 
 # SI ES VOL ENTRENAR EL MODEL AMB LES DADES ORIGINALS DEL DATASET, DESCOMENTAR EL SEGÜENT BLOC
-#"""
+"""
 bkpcy_full_dataset = main.load_dataset_from_csv('../data/archive/data.csv')
 main.print_head(bkpcy_full_dataset)
 main.print_data_types(bkpcy_full_dataset)
@@ -49,4 +49,4 @@ main.logistic_regression(x_t_norm, y_t, x_v_norm, y_v)
 main.svm_classifier(x_t_norm, y_t, x_v_norm, y_v)
 main.knn_classifier(x_t_norm, y_t, x_v_norm, y_v)
 main.random_forest_classifier(x_t_norm, y_t, x_v_norm, y_v)
-#"""
+"""

@@ -10,7 +10,7 @@ El conjunt de dades està format per 6819 registres, amb 96 atributs cadascun d'
 
 Concretament, la llista d'atributs d'aquest dataset és:
 
- 0   Bankrupt?                                                 6819 non-null   int64  
+ 0   Bankrupt?                                                 6819 non-null   int64 </br>
  1    ROA(C) before interest and depreciation before interest  6819 non-null   float64
  2    ROA(A) before interest and % after tax                   6819 non-null   float64
  3    ROA(B) before interest and depreciation after tax        6819 non-null   float64
@@ -145,7 +145,6 @@ Després d'aquest anàlisi de les dades, s'ha començat amb el preprocessament d
 | Support Vectors Classifier | 'C': 1, 'degree': 3, 'kernel': 'linear' | f1-score: Classe 0: 0.98, Classe 1: 0.08 | 506.07 s |
 | K Nearest Neighbors | 'n\_neighbors': 10, 'p': 1, 'weights': 'uniform' | f1-score: Classe 0: 0.98, Classe 1: 0.11 | 16.42 s |
 | Random Forest Classifier | 'criterion': 'gini', 'max\_depth': 8, 'max\_features': 'sqrt', 'n\_estimators': 200 | f1-score: Classe 0: 0.98, Classe 1: 0.16 | 614.19 s |
-| -- | -- | -- | -- |
 
 ## Demo
 Per tal de fer una prova, es pot fer servir amb la següent comanda:
